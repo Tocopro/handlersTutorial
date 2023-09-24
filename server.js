@@ -2,20 +2,44 @@ const express = require('express');
 const app = express();
 const  expbs  = require('express-handlebars');
 const path = require('path');
+const Handlebars = require('handlebars');
 const hbs = expbs.create({defaultLayout: 'main',
 partialsDir: path.join(__dirname,'views/partials'),
-layoutsDir: path.join(__dirname, 'views/layouts')});
-app.engine('handlebars', hbs.engine);
+layoutsDir: path.join(__dirname, 'views/layouts')
+});
+
+
+app.engine('handlebars', hbs.engine
+({
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, 'views/layout'),
+    partialsDir: path.join(__dirname, 'views/partials'), 
+}));
+
+
+
 app.set('view engine', 'handlebars');
+
+app.get('/look', (req, res) =>
+{
+    res.render('lookup')
+
+});
 
 app.get('/', (req, res) =>
 {
-    res.render('index', {title: 'Home Page', name: 'John Doe', isDisplayedName:true});
+    res.render('index', 
+    {title: 'Home Page',
+     name: 'John Doe',     
+    isDisplayedName:true
+});
 });
 
 app.get('/about', (req, res) =>
 {
-    res.render('about', {title: 'About Page', description: 'Cinema'});
+    res.render('about',
+     {title: 'About Page',
+      description: 'Cinema'});
 });
 
 app.get('/dashboard', (req, res) =>
